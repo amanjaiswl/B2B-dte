@@ -704,3 +704,19 @@ footer {
   background-color: var(--light-bg);
 }
 
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+  margin: 1rem;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.back-button:hover {
+  color: var(--primary-color);
+}
+

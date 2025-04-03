@@ -1,3 +1,5 @@
+<button class="back-button" onclick="window.history.back();">&larr; Back</button>
+
 <div class="vendor-products-container">
   <h2>Products from <%= vendor.businessName %></h2>
   <p><%= vendor.description %></p>
@@ -11,10 +13,10 @@
         <p><strong>Price:</strong> ₹<%= product.price %></p>
         <p><strong>Min Order:</strong> <%= product.minOrderQuantity %> units</p>
         <p><strong>Rating:</strong> <%= product.rating %>/5</p>
-        <button class="btn primary-btn place-order-btn" 
-                data-product-id="<%= product._id %>" 
-                data-product-name="<%= product.name %>" 
-                data-price="<%= product.price %>" 
+        <button class="btn primary-btn place-order-btn"
+                data-product-id="<%= product._id %>"
+                data-product-name="<%= product.name %>"
+                data-price="<%= product.price %>"
                 data-min-order="<%= product.minOrderQuantity %>">
           Place Order
         </button>
