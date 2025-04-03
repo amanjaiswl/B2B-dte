@@ -1,0 +1,19 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>OTP Verification</h2>
+    <p>Please check for the OTP popup.</p>
+    <form action="/verify-otp" method="POST" class="auth-form">
+      <div class="form-group">
+        <label for="otp">Enter OTP*</label>
+        <input type="text" id="otp" name="otp" required>
+      </div>
+      <button type="submit" class="btn primary-btn btn-full">Verify OTP</button>
+    </form>
+  </div>
+</div>
+<script>
+  window.onload = function(){
+    alert("Your OTP is: <%= 997245 %>");
+  }
+</script>
+

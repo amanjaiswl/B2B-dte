@@ -1,0 +1,27 @@
+<div class="browse-container">
+  <h2>Browse Vendors</h2>
+
+  <!-- Optional: Add filter controls for categories, ratings, etc. -->
+  <div class="vendor-filters">
+    <!-- Future filtering UI -->
+  </div>
+
+  <!-- Vendor Cards Grid -->
+  <div class="vendor-grid">
+    <% vendors.forEach(function(vendor) { %>
+      <div class="vendor-card">
+        <div class="vendor-logo">
+          <img src="<%= vendor.logoUrl %>" alt="<%= vendor.businessName %>">
+        </div>
+        <div class="vendor-info">
+          <h3><%= vendor.businessName %></h3>
+          <p class="vendor-category"><strong>Category:</strong> <%= vendor.category %></p>
+          <p class="vendor-rating"><strong>Rating:</strong> <%= vendor.rating %>/5</p>
+          <p class="vendor-description"><%= vendor.description %></p>
+          <a href="/vendor/<%= vendor._id %>" class="btn primary-btn">View Products</a>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+

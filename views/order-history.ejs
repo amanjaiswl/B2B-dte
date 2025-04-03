@@ -1,0 +1,34 @@
+<div class="order-history-container">
+  <h2>Your Order History</h2>
+  <% if (orders.length === 0) { %>
+    <p>No orders yet.</p>
+  <% } else { %>
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Product</th>
+          <th>Type</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Delivery</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(function(order) { %>
+          <tr>
+            <td>#<%= order.id %></td>
+            <td><%= order.productName %></td>
+            <td><%= order.orderType %></td>
+            <td><%= order.quantity %></td>
+            <td>₹<%= order.total %></td>
+            <td><%= order.deliveryEstimate || '-' %></td>
+            <td><%= new Date(order.timestamp).toLocaleString() %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+

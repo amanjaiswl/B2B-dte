@@ -1,0 +1,147 @@
+<div class="vendor-products-container">
+  <h2>Products from <%= vendor.businessName %></h2>
+  <p><%= vendor.description %></p>
+
+  <div class="products-grid">
+    <% products.forEach(function(product) { %>
+      <div class="product-card">
+        <img src="<%= product.imageUrl %>" alt="<%= product.name %>">
+        <h3><%= product.name %></h3>
+        <p class="product-description"><%= product.description %></p>
+        <p><strong>Price:</strong> ₹<%= product.price %></p>
+        <p><strong>Min Order:</strong> <%= product.minOrderQuantity %> units</p>
+        <p><strong>Rating:</strong> <%= product.rating %>/5</p>
+        <button class="btn primary-btn place-order-btn" 
+                data-product-id="<%= product._id %>" 
+                data-product-name="<%= product.name %>" 
+                data-price="<%= product.price %>" 
+                data-min-order="<%= product.minOrderQuantity %>">
+          Place Order
+        </button>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<!-- Modal Markup -->
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Place Order for <span id="modalProductName"></span></h2>
+    <form id="orderForm" action="/place-order" method="POST">
+      <!-- Hidden product details -->
+      <input type="hidden" id="modalProductId" name="productId">
+      <input type="hidden" id="modalProductPrice" name="price">
+      <div class="form-group">
+        <label for="quantity">Quantity (Minimum: <span id="modalMinOrder"></span>)</label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+      </div>
+      <div class="form-group">
+        <label for="negotiation">Price Negotiation / Special Request</label>
+        <textarea id="negotiation" name="negotiation" placeholder="Enter negotiation details or special requests"></textarea>
+      </div>
+      <button type="submit" class="btn primary-btn" id="orderSubmitBtn">Pay and Order</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('orderModal');
+    const closeModal = document.querySelector('.close-modal');
+    const modalProductName = document.getElementById('modalProductName');
+    const modalProductId = document.getElementById('modalProductId');
+    const modalProductPrice = document.getElementById('modalProductPrice');
+    const modalMinOrder = document.getElementById('modalMinOrder');
+    const quantityInput = document.getElementById('quantity');
+    const negotiationInput = document.getElementById('negotiation');
+    const orderSubmitBtn = document.getElementById('orderSubmitBtn');
+    const orderForm = document.getElementById('orderForm');
+    let currentPrice = 0;
+
+    // Open modal and populate product data when a "Place Order" button is clicked
+    document.querySelectorAll('.place-order-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        const productName = this.getAttribute('data-product-name');
+        const minOrder = this.getAttribute('data-min-order');
+        currentPrice = parseFloat(this.getAttribute('data-price'));
+
+        modalProductName.textContent = productName;
+        modalProductId.value = productId;
+        modalProductPrice.value = currentPrice;
+        modalMinOrder.textContent = minOrder;
+        quantityInput.min = minOrder;
+        quantityInput.value = minOrder; // Default quantity is the minimum
+        negotiationInput.value = ""; // Clear any previous negotiation text
+        orderSubmitBtn.textContent = "Pay and Order"; // Reset button text
+
+        // Show the modal
+        modal.style.display = 'block';
+      });
+    });
+
+    // Close the modal when clicking the close icon
+    closeModal.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside the modal content
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Change button text based on the negotiation input
+    negotiationInput.addEventListener('input', function() {
+      if (this.value.trim().length > 0) {
+        orderSubmitBtn.textContent = "Enquire Order";
+      } else {
+        orderSubmitBtn.textContent = "Pay and Order";
+      }
+    });
+
+    // Intercept form submission to post order data to the server
+    orderForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent the default form submission
+      const negotiationText = negotiationInput.value.trim();
+      const quantity = parseInt(quantityInput.value, 10);
+      const price = parseFloat(modalProductPrice.value);
+      const orderType = negotiationText.length > 0 ? "Enquiry" : "Order";
+      const total = orderType === "Order" ? price * quantity : 0;
+
+      // Build the order data object
+      const orderData = {
+        productId: modalProductId.value,
+        productName: modalProductName.textContent,
+        quantity: quantity,
+        negotiation: negotiationText,
+        orderType: orderType,
+        total: total,
+        deliveryEstimate: orderType === "Order" ? "3-5 days" : null
+      };
+
+      // Send the order data to the server via AJAX (fetch)
+      fetch('/place-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        // Close the modal after receiving confirmation
+        modal.style.display = 'none';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again.');
+      });
+    });
+  });
+</script>
+

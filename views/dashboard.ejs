@@ -1,0 +1,62 @@
+<div class="dashboard-container">
+  <h2>Welcome, Choksi Traders</h2>
+  
+  <!-- Overview Panel -->
+  <div class="overview-panel">
+    <div class="overview-item">
+      <h3>Account Balance</h3>
+      <p>₹50,00,000</p>
+    </div>
+    <div class="overview-item">
+      <h3>Current Orders</h3>
+      <p>5 Orders</p>
+    </div>
+    <div class="overview-item">
+      <h3>Pending Deliveries</h3>
+      <p>2 Orders</p>
+    </div>
+  </div>
+  
+  <!-- Current Orders Section -->
+  <section class="orders-section">
+    <h3>Current Orders</h3>
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Vendor</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+          <th>Delivery</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Example row -->
+        <tr>
+          <td>#ORD123</td>
+          <td>Vendor A</td>
+          <td>2025-04-01</td>
+          <td>Processing</td>
+          <td>₹2,00,000</td>
+          <td>Shipped - ETA: 2025-04-05</td>
+        </tr>
+        <tr>
+          <td>#ORD124</td>
+          <td>Vendor B</td>
+          <td>2025-04-02</td>
+          <td>Pending</td>
+          <td>₹1,50,000</td>
+          <td>Not Dispatched</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <!-- Quick Actions -->
+  <div class="dashboard-actions">
+    <a href="/browse" class="btn primary-btn">Browse Vendors</a>
+    <a href="/orders" class="btn secondary-btn">View Order History</a>
+  </div>
+</div>
+
